@@ -29,12 +29,13 @@ This will start the server and listen for incoming requests.
 
 API Endpoints:
 
-Endpoint	Method	Description	Success Status Code	Error Status Code
-/tasks	GET	Retrieves all tasks	200	500
-/tasks/:id	GET	Retrieves a specific task by ID	200 (if found)	404 (if not found)
-/tasks	POST	Creates a new task	201	500
-/tasks/:id	PUT	Updates an existing task	200 (if found)	404 (if not found)
-/tasks/:id	DELETE	Deletes a task	200 (if found)	404 (if not found)
+| Endpoint    | Method | Description                       | Success Status Code | Error Status Code |
+|-------------|--------|-----------------------------------|----------------------|-------------------|
+| `/tasks`    | GET    | Retrieves all tasks               | 200                  | 500               |
+| `/tasks/:id` | GET    | Retrieves a specific task by ID | 200 (if found)       | 404 (if not found), 500|
+| `/tasks`    | POST   | Creates a new task                | 201                  | 500               |
+| `/tasks/:id` | PUT    | Updates an existing task          | 200 (if found)       | 404 (if not found), 500|
+| `/tasks/:id` | DELETE | Deletes a task                    | 200 (if found)       | 404 (if not found), 500|
 
 Exportar a Hojas de cálculo
 Data Transfer Object (DTO):
