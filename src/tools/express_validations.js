@@ -10,10 +10,24 @@ export const validateTaskCreation = [
   body('completed').isBoolean().withMessage('Completed must be a boolean'),
 ];
 
+
 export const validateTaskUpdate = [
-  ...validateTaskId,
-  ...validateTaskCreation,
+  validateTaskId[0],
+  body('title')
+    .optional() // Solo valida si está presente
+    .notEmpty()
+    .withMessage('Title cannot be empty'),
+  body('description')
+    .optional() // Solo valida si está presente
+    .notEmpty()
+    .withMessage('Description cannot be empty'),
+  body('completed')
+    .optional() // Solo valida si está presente
+    .isBoolean()
+    .withMessage('Completed must be a boolean'),
 ];
+
+
 
 export const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
@@ -22,4 +36,5 @@ export const handleValidationErrors = (req, res, next) => {
   }
   next();
 };
+
 

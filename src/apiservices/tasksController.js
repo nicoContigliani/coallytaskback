@@ -17,7 +17,11 @@ export const getTasks = async (req, res) => {
         const tasks = await findAllTasks();
         res.status(200).json(tasks.map(taskDTO));
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching tasks', error });
+        console.error('Error fetching tasks:', error);
+        res.status(500).json({
+            message: 'Error fetching tasks. Please try again later.',
+            error: error.message || 'Internal server error'
+        });
     }
 };
 
@@ -49,10 +53,16 @@ export const getTasksId = [
         const { id } = req.params;
         try {
             const task = await findTaskById(id);
-            if (!task) return res.status(404).json({ message: 'Task not found' });
+            if (!task) {
+                return res.status(404).json({ message: `Task with ID ${id} not found.` });
+            }
             res.status(200).json(taskDTO(task));
         } catch (error) {
-            res.status(500).json({ message: 'Error fetching task', error });
+            console.error('Error fetching task by ID:', error);
+            res.status(500).json({
+                message: `Error fetching task with ID ${id}. Please try again later.`,
+                error: error.message || 'Internal server error'
+            });
         }
     }
 ];
@@ -97,7 +107,11 @@ export const createTask = [
             const newTask = await createNewTask({ title, description, completed });
             res.status(201).json(taskDTO(newTask));
         } catch (error) {
-            res.status(500).json({ message: 'Error creating task', error });
+            console.error('Error creating task:', error);
+            res.status(500).json({
+                message: 'Error creating task. Please try again later.',
+                error: error.message || 'Internal server error'
+            });
         }
     }
 ];
@@ -142,21 +156,68 @@ export const createTask = [
  *       500:
  *         description: Error updating task
  */
+// export const updateTask = [
+//     validateTaskUpdate,
+//     handleValidationErrors,
+//     async (req, res) => {
+//         const { id } = req.params;
+//         const { title, description, completed } = req.body;
+//         try {
+//             const task = await updateTaskById(id, { title, description, completed });
+//             if (!task) {
+//                 return res.status(404).json({ message: `Task with ID ${id} not found.` });
+//             }
+//             res.status(200).json(taskDTO(task));
+//         } catch (error) {
+//             console.error('Error updating task:', error);
+//             res.status(500).json({
+//                 message: `Error updating task with ID ${id}. Please try again later.`,
+//                 error: error.message || 'Internal server error'
+//             });
+//         }
+//     }
+// ];
 export const updateTask = [
-    validateTaskUpdate,
-    handleValidationErrors,
+    validateTaskUpdate, // Validaciones
+    handleValidationErrors, // Manejo de errores de validación
     async (req, res) => {
         const { id } = req.params;
         const { title, description, completed } = req.body;
+
         try {
-            const task = await updateTaskById(id, { title, description, completed });
-            if (!task) return res.status(404).json({ message: 'Task not found' });
-            res.status(200).json(taskDTO(task));
+            // Verificar qué campos están presentes
+            const updatedData = {};
+
+            // Si se ha enviado 'title', 'description' o 'completed', agregarlos a 'updatedData'
+            if (title !== undefined) updatedData.title = title;
+            if (description !== undefined) updatedData.description = description;
+            if (completed !== undefined) updatedData.completed = completed;
+
+            // Si no se recibe ninguno de estos campos, retorna un error (muestra que no hay datos para actualizar)
+            if (Object.keys(updatedData).length === 0) {
+                return res.status(400).json({ message: 'No data provided to update.' });
+            }
+
+            // Llamar a la función de actualización con los datos proporcionados
+            const task = await updateTaskById(id, updatedData);
+
+            if (!task) {
+                return res.status(404).json({ message: `Task with ID ${id} not found.` });
+            }
+
+            // Retornar la tarea actualizada
+            res.status(200).json(taskDTO(task)); // Devuelve el DTO o el formato que prefieras
+
         } catch (error) {
-            res.status(500).json({ message: 'Error updating task', error });
+            console.error('Error updating task:', error);
+            res.status(500).json({
+                message: `Error updating task with ID ${id}. Please try again later.`,
+                error: error.message || 'Internal server error'
+            });
         }
     }
 ];
+
 
 /**
  * @openapi
@@ -188,11 +249,16 @@ export const deleteTask = [
         const { id } = req.params;
         try {
             const deleted = await deleteTaskById(id);
-            if (!deleted) return res.status(404).json({ message: 'Task not found' });
-            res.status(200).json({ message: 'Task deleted successfully' });
+            if (!deleted) {
+                return res.status(404).json({ message: `Task with ID ${id} not found.` });
+            }
+            res.status(200).json({ message: `Task with ID ${id} deleted successfully.` });
         } catch (error) {
-            res.status(500).json({ message: 'Error deleting task', error });
+            console.error('Error deleting task:', error);
+            res.status(500).json({
+                message: `Error deleting task with ID ${id}. Please try again later.`,
+                error: error.message || 'Internal server error'
+            });
         }
     }
 ];
-
