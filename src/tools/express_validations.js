@@ -14,15 +14,15 @@ export const validateTaskCreation = [
 export const validateTaskUpdate = [
   validateTaskId[0],
   body('title')
-    .optional() // Solo valida si está presente
+    .optional() 
     .notEmpty()
     .withMessage('Title cannot be empty'),
   body('description')
-    .optional() // Solo valida si está presente
+    .optional() 
     .notEmpty()
     .withMessage('Description cannot be empty'),
   body('completed')
-    .optional() // Solo valida si está presente
+    .optional() 
     .isBoolean()
     .withMessage('Completed must be a boolean'),
 ];

@@ -8,7 +8,7 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Tasks API',
+      title: 'Tasks API Nicolas Contigliani',
       version: '1.0.0',
       description: 'API for managing tasks in the system',
     },
@@ -19,7 +19,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: [join(__dirname, '../apiservices/tasksController.js')],  // This points to your controller file
+  apis: [join(__dirname, '../apiservices/tasks/tasksController.js')],  // This points to your controller file
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

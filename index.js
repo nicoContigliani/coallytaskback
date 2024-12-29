@@ -15,7 +15,7 @@ connectDB();
 
 const app = express();
 app.use(cors());
-app.use(morgan('dev')); // 'dev' is a predefined format for logging requests
+app.use(morgan('dev')); 
 app.use(express.json());
 
 

@@ -11,12 +11,12 @@ export function verifyToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ error: "Token requerido" });
+    return res.status(401).json({ error: "Token required" });
   }
 
   jwt.verify(token, SECRET_KEY, (err, user) => {
     if (err) {
-      return res.status(403).json({ error: "Token inválido" });
+      return res.status(403).json({ error: "Token not valid" });
     }
     req.user = user;
     next();
