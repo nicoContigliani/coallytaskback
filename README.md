@@ -10,7 +10,7 @@ A robust RESTful API built with Node.js for efficient task management, featuring
 ## 🚀 Project Deploy 
 
 Api: https://coallytaskback.up.railway.app
-Front:https://coallytaskfront.netlify.app/login
+Front:https://coallytaskfront.netlify.app
 
 
 
