@@ -60,8 +60,8 @@ tasks-api/
 
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
-   cd <repository-folder>
+   git clone https://github.com/nicoContigliani/coallytaskback
+   cd coallytaskback
    ```
 
 2. **Install Dependencies**
