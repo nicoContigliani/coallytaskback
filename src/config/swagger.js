@@ -14,7 +14,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'https://coallytaskfront.netlify.app',
+        url: 'http://localhost:5000/api/',
         description: 'Development server',
       },
     ],
