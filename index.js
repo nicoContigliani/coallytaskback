@@ -2,11 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import connectDB from './src/config/db.js';
-import taskRoutes from './src/apiservices/tasksRoutes.js';
-import swaggerSpec from './src/config/swagger.js';
 import cors from 'cors';
 import morgan from 'morgan'; // Import morgan
-
+import taskRoutes from './src/apiservices/tasks/tasksRoutes.js';
+import authRoutes from './src/apiservices/auth/authRoutes.js';
+import swaggerSpec from './src/config/swagger.js';
+import { verifyToken } from './src/midelware/auth.js';
 
 dotenv.config();
 
@@ -17,7 +18,10 @@ app.use(cors());
 app.use(morgan('dev')); // 'dev' is a predefined format for logging requests
 app.use(express.json());
 
-app.use('/api/tasks', taskRoutes);
+
+app.use('/api/auth',authRoutes)
+
+app.use('/api/tasks',verifyToken ,taskRoutes);
 
 app.use('/doc_swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

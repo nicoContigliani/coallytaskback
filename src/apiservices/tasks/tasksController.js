@@ -183,7 +183,6 @@ export const updateTask = [
     async (req, res) => {
         const { id } = req.params;
         const { title, description, completed } = req.body;
-        console.log("🚀 ~ title, description, completed:", title, description, completed)
 
         try {
             // Verificar qué campos están presentes

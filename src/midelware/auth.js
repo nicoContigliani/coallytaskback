@@ -1,20 +1,26 @@
-const jwt = require("jsonwebtoken");
-const config = process.env;
+import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
 
-const verifyToken = (req, res, next) => {
+dotenv.config();
 
-    const token = req.body.token || req.query.token || req.header('auth-token');
+const SECRET_KEY = process.env.SECRET_KEY_JWT;
 
-    if (!token) {
-        return res.status(403).send("Error 403 -  A token is required for authentication ");
+// Middleware para verificar el token
+export function verifyToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Token requerido" });
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: "Token inválido" });
     }
-    try {
-        const decoded = jwt.verify(token, config.TOKEN_SECRET);
-        req.user = decoded;
-    } catch (err) {
-        return res.status(401).send("Error 401 - Invalid Token");
-    }
-    return next();
-};
+    req.user = user;
+    next();
+  });
+}
 
-module.exports = verifyToken;
+export { SECRET_KEY };

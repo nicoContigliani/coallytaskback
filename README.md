@@ -33,8 +33,15 @@ This application runs from the `index.js` file instead of a `server.js` file.
    ```bash
    npm install
    ```
+3. **Create and Add .env**
+```
+MONGO_URI=************************************
+PORT=5000
+MONGO_URI_Attlas=mongodb+srv://<usuario>:<password>@cluster0.mongodb.net/tudatabase?retryWrites=true&w=majority
+```
 
-3. **Run the Application**
+
+4. **Run the Application**
 
    ```bash
    node index.js
@@ -46,13 +53,13 @@ This will start the server and listen for incoming requests.
 
 ## API Endpoints
 
-| Endpoint      | Method | Description                       | Success Status Code | Error Status Code              |
-|---------------|--------|-----------------------------------|----------------------|-------------------------------|
-| `/tasks`      | GET    | Retrieves all tasks               | 200                  | 500                           |
-| `/tasks/:id`  | GET    | Retrieves a specific task by ID   | 200 (if found)       | 404 (if not found), 500       |
-| `/tasks`      | POST   | Creates a new task                | 201                  | 500                           |
-| `/tasks/:id`  | PUT    | Updates an existing task          | 200 (if found)       | 404 (if not found), 500       |
-| `/tasks/:id`  | DELETE | Deletes a task                    | 200 (if found)       | 404 (if not found), 500       |
+| Endpoint     | Method | Description                     | Success Status Code | Error Status Code       |
+| ------------ | ------ | ------------------------------- | ------------------- | ----------------------- |
+| `/tasks`     | GET    | Retrieves all tasks             | 200                 | 500                     |
+| `/tasks/:id` | GET    | Retrieves a specific task by ID | 200 (if found)      | 404 (if not found), 500 |
+| `/tasks`     | POST   | Creates a new task              | 201                 | 500                     |
+| `/tasks/:id` | PUT    | Updates an existing task        | 200 (if found)      | 404 (if not found), 500 |
+| `/tasks/:id` | DELETE | Deletes a task                  | 200 (if found)      | 404 (if not found), 500 |
 
 ---
 
