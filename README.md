@@ -7,6 +7,17 @@
 
 A robust RESTful API built with Node.js for efficient task management, featuring JWT authentication, MongoDB integration, and a clean architecture.
 
+## 🚀 Project Deploy 
+
+Api: https://coallytaskback.up.railway.app
+Front:https://coallytaskfront.netlify.app/login
+
+
+
+## 🚀 Documentation Swagger 
+
+https://coallytaskback.up.railway.app/doc_swagger
+
 ## 🌟 Features
 
 - **JWT Authentication**: Secure endpoint access with JSON Web Tokens
