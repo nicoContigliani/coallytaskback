@@ -1,11 +1,9 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-
 dotenv.config();
-const router = express.Router();
-
 const SECRET_KEY = process.env.SECRET_KEY_JWT || 'secret_key';
+const router = express.Router();
 
 //fake autentication
 router.post('/', (req, res) => {

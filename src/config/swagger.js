@@ -4,6 +4,11 @@ import swaggerJsdoc from 'swagger-jsdoc';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// Utiliza una variable de entorno para configurar la URL del servidor dependiendo del entorno
+const serverUrl = process.env.NODE_ENV === 'production'
+  ? process.env.URL  // URL de tu API en producción
+  : 'http://localhost:5000/api/';     // URL de desarrollo local
+
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -14,8 +19,10 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:5000/api/',
-        description: 'Development server',
+        url: serverUrl,
+        description: process.env.NODE_ENV === 'production'
+          ? 'Production server'
+          : 'Development server',  
       },
     ],
   },

@@ -119,23 +119,26 @@ export const createTask = [
 /**
  * @openapi
  * /tasks/filter:
- *   post:
+ *   get:
  *     summary: Retrieve tasks with dynamic filtering
- *     description: Retrieve a list of tasks based on a dynamic filter provided in the request body.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               filter:
- *                 type: object
- *                 description: A JSON object representing the filter criteria for the tasks (e.g., {"completed":true,"priority":"high"}).
- *             example:
- *               filter: 
- *                 completed: true
- *                 priority: high
+ *     description: Retrieve a list of tasks based on dynamic filter criteria provided as query parameters.
+ *     parameters:
+ *       - in: query
+ *         name: completed
+ *         schema:
+ *           type: boolean
+ *         description: Filter tasks by completion status (true or false).
+ *       - in: query
+ *         name: title
+ *         schema:
+ *           type: string
+ *         description: Filter tasks by title (partial match, case insensitive).
+ *       - in: query
+ *         name: priority
+ *         schema:
+ *           type: string
+ *           enum: [low, medium, high]
+ *         description: Filter tasks by priority level.
  *     responses:
  *       200:
  *         description: List of tasks that match the filter criteria.
@@ -171,7 +174,7 @@ export const createTask = [
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Invalid filter format. Please provide a valid JSON object.
+ *                   example: Invalid filter format. Please provide valid query parameters.
  *       500:
  *         description: Internal server error.
  *         content:
