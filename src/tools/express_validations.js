@@ -5,9 +5,16 @@ export const validateTaskId = [
 ];
 
 export const validateTaskCreation = [
-  body('title').notEmpty().withMessage('Title is required'),
-  body('description').notEmpty().withMessage('Description is required'),
-  body('completed').isBoolean().withMessage('Completed must be a boolean'),
+  body('title')
+  .notEmpty()
+  .withMessage('Title is required'),
+  body('description')
+  .optional() 
+  .notEmpty()
+  .withMessage('Description is optionals'),
+  body('completed')
+  .isBoolean()
+  .withMessage('Completed must be a boolean'),
 ];
 
 export const validateTaskUpdate = [
