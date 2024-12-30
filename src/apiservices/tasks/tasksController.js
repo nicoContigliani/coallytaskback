@@ -1,5 +1,5 @@
 import { taskDTO } from './tasksDto.js';
-import { findAllTasks, findTaskById, createNewTask, updateTaskById, deleteTaskById } from './tasksDao.js';
+import { findAllTasks, findTaskById, createNewTask, updateTaskById, deleteTaskById, filterTasks } from './tasksDao.js';
 import { validateTaskId, validateTaskCreation, validateTaskUpdate, handleValidationErrors } from '../../tools/express_validations.js';
 
 /**
@@ -115,6 +115,109 @@ export const createTask = [
         }
     }
 ];
+
+/**
+ * @openapi
+ * /tasks/filter:
+ *   post:
+ *     summary: Retrieve tasks with dynamic filtering
+ *     description: Retrieve a list of tasks based on a dynamic filter provided in the request body.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               filter:
+ *                 type: object
+ *                 description: A JSON object representing the filter criteria for the tasks (e.g., {"completed":true,"priority":"high"}).
+ *             example:
+ *               filter: 
+ *                 completed: true
+ *                 priority: high
+ *     responses:
+ *       200:
+ *         description: List of tasks that match the filter criteria.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: Unique identifier for the task.
+ *                   title:
+ *                     type: string
+ *                     description: Title of the task.
+ *                   description:
+ *                     type: string
+ *                     description: Description of the task.
+ *                   completed:
+ *                     type: boolean
+ *                     description: Indicates if the task is completed.
+ *                   priority:
+ *                     type: string
+ *                     enum: [low, medium, high]
+ *                     description: Priority level of the task.
+ *       400:
+ *         description: Invalid filter format.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Invalid filter format. Please provide a valid JSON object.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Error fetching tasks. Please try again later.
+ *                 error:
+ *                   type: string
+ *                   example: Internal server error.
+ */
+
+
+export const filterTask = [
+    async (req, res) => {
+        try {
+            const filter = req.body || {}; // Leer el filtro del cuerpo de la solicitud
+            console.log("🚀 ~ Filtro recibido:", filter);
+
+            if (typeof filter !== 'object') {
+                throw new Error('El filtro debe ser un objeto válido');
+            }
+
+            const tasks = await filterTasks(filter);
+
+            console.log("🚀 ~ Tareas encontradas:", tasks);
+
+            if (!tasks.length) {
+                console.warn('No se encontraron tareas con el filtro proporcionado.');
+            }
+
+            res.status(200).json(tasks);
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+            res.status(500).json({
+                message: 'Error fetching tasks. Please try again later.',
+                error: error.message || 'Internal server error',
+            });
+        }
+    }
+];
+
+
 
 /**
  * @openapi
