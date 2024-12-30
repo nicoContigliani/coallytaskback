@@ -156,56 +156,31 @@ export const createTask = [
  *       500:
  *         description: Error updating task
  */
-// export const updateTask = [
-//     validateTaskUpdate,
-//     handleValidationErrors,
-//     async (req, res) => {
-//         const { id } = req.params;
-//         const { title, description, completed } = req.body;
-//         try {
-//             const task = await updateTaskById(id, { title, description, completed });
-//             if (!task) {
-//                 return res.status(404).json({ message: `Task with ID ${id} not found.` });
-//             }
-//             res.status(200).json(taskDTO(task));
-//         } catch (error) {
-//             console.error('Error updating task:', error);
-//             res.status(500).json({
-//                 message: `Error updating task with ID ${id}. Please try again later.`,
-//                 error: error.message || 'Internal server error'
-//             });
-//         }
-//     }
-// ];
+
 export const updateTask = [
-    validateTaskUpdate, // Validaciones
-    handleValidationErrors, // Manejo de errores de validación
+    validateTaskUpdate,
+    handleValidationErrors,
     async (req, res) => {
         const { id } = req.params;
         const { title, description, completed } = req.body;
 
         try {
-            // Verificar qué campos están presentes
             const updatedData = {};
 
-            // Si se ha enviado 'title', 'description' o 'completed', agregarlos a 'updatedData'
             if (title !== undefined) updatedData.title = title;
             if (description !== undefined) updatedData.description = description;
             if (completed !== undefined) updatedData.completed = completed;
 
-            // Si no se recibe ninguno de estos campos, retorna un error (muestra que no hay datos para actualizar)
             if (Object.keys(updatedData).length === 0) {
                 return res.status(400).json({ message: 'No data provided to update.' });
             }
 
-            // Llamar a la función de actualización con los datos proporcionados
             const task = await updateTaskById(id, updatedData);
 
             if (!task) {
                 return res.status(404).json({ message: `Task with ID ${id} not found.` });
             }
 
-            // Retornar la tarea actualizada
             res.status(200).json(taskDTO(task)); // Devuelve el DTO o el formato que prefieras
 
         } catch (error) {
@@ -217,7 +192,6 @@ export const updateTask = [
         }
     }
 ];
-
 
 /**
  * @openapi

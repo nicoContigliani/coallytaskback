@@ -10,7 +10,6 @@ export const validateTaskCreation = [
   body('completed').isBoolean().withMessage('Completed must be a boolean'),
 ];
 
-
 export const validateTaskUpdate = [
   validateTaskId[0],
   body('title')
@@ -26,8 +25,6 @@ export const validateTaskUpdate = [
     .isBoolean()
     .withMessage('Completed must be a boolean'),
 ];
-
-
 
 export const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);

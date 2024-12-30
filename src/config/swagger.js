@@ -19,7 +19,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: [join(__dirname, '../apiservices/tasks/tasksController.js')],  // This points to your controller file
+  apis: [join(__dirname, '../apiservices/tasks/tasksController.js')],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

@@ -5,7 +5,6 @@ dotenv.config();
 
 const SECRET_KEY = process.env.SECRET_KEY_JWT;
 
-// Middleware para verificar el token
 export function verifyToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
