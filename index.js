@@ -19,6 +19,7 @@ app.use(express.json());
 
 app.use('/api/auth',authRoutes)
 app.use('/api/tasks',verifyToken ,taskRoutes);
+
 app.use('/doc_swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const PORT = process.env.PORT || 5000;

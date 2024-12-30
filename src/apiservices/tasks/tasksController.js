@@ -191,12 +191,19 @@ export const createTask = [
 export const filterTask = [
     async (req, res) => {
         try {
-            const filter = req.body || {}; // Leer el filtro del cuerpo de la solicitud
-            console.log("🚀 ~ Filtro recibido:", filter);
+            const filter = {};
+            console.log("🚀 ~ req.query:", req.query)
 
-            if (typeof filter !== 'object') {
-                throw new Error('El filtro debe ser un objeto válido');
+            // Construir el objeto de filtro a partir de los query parameters
+            if (req.query.completed) {
+                filter.completed = req.query.completed === 'true';
             }
+            if (req.query.title) {
+                filter.title = { $regex: req.query.title, $options: 'i' };
+            }
+            // Agrega más campos de filtro según sea necesario
+
+            console.log("🚀 ~ Filtro recibido:", filter);
 
             const tasks = await filterTasks(filter);
 
